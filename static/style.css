@@ -1,0 +1,38 @@
+.content-container
+{
+    background-color: goldenrod;
+    width: 100%;
+    height: 100%;
+    border: 2px solid darkblue;
+    /* border-radius: 15%; */
+}
+
+
+
+.prompt-container{
+    width:100%;
+}
+.prompt-row{
+    width:100%;
+    padding:10px;
+    justify-content: center;
+}
+.add-prompt-button{
+    
+}
+.prompt-input{
+    width: 75%;
+    display:inline-block;
+}
+.prompt-weight-input{
+    width:10%;
+    display: inline-block;
+    /* padding-left: 10px; */
+}
+.removebutton{
+    /* padding-left: 10px; */
+}
+
+.stuff{
+    white-space: pre;
+}

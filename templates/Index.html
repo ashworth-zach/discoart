@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Disco Splash</title>
+        <meta name="description" content="DiscoArt UI">
+        <meta name="keywords" content="User interface DiscoArt UI">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+
+
+<body>
+    <script>
+        // Anonymous "self-invoking" function
+        (function() {
+            var startingTime = new Date().getTime();
+            // Load the script
+            var script = document.createElement("SCRIPT");
+            script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
+            script.type = 'text/javascript';
+            document.getElementsByTagName("head")[0].appendChild(script);
+
+            // Poll for jQuery to come into existance
+            var checkReady = function(callback) {
+                if (window.jQuery) {
+                    callback(jQuery);
+                }
+                else {
+                    window.setTimeout(function() { checkReady(callback); }, 20);
+                }
+            };
+
+            // Start polling...
+            checkReady(function($) {
+                $(function() {
+                    $("#startRender").click(function() { // or $("input#<input id, if it has one>")...
+                        // $.get('/button');
+                        // If you want to post to the backend instead, do
+                        console.log("test");
+                        $.post('/startRender');
+                    });
+                });
+            });
+        })();
+    </script>
+    <div class="container">
+        <div class="content-container prompt-container">
+            <div class="promp-row prompt-row-0">
+                <input type="text" placeholder="Prompt..." class="prompt-input 0-prompt">  
+                <input type="text" placeholder="Weight" class="prompt-weight-input 0-prompt-weight">
+                <button id="add-prompt-button">Add Prompt +</button>
+            </div>
+        </div>
+        <div class="content-container stuff">
+            <input type="text">
+            <input type="number">
+
+            <form method="post">
+                <label for="title">Title</label>
+                <br>
+                <input type="text" name="title"
+                       placeholder="Message title"
+                       value="{{ request.form['title'] }}"></input>
+                <br>
+        
+                <label for="content">Message Content</label>
+                <br>
+                <textarea name="content"
+                          placeholder="Message content"
+                          rows="15"
+                          cols="60"
+                          >{{ request.form['content'] }}</textarea>
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+            {{session['batch_name']}}
+            {{session['batch_size']}}
+            {{session['clamp_grad']}}
+            {{session['clamp_max']}}
+            {{session['clip_denoised']}}
+            {{session['clip_guidance_scale']}}
+            {{session['clip_models']}}
+            {{session['clip_models_schedules']}}
+            {{session['cut_ic_pow']}}
+            {{session['cut_icgray_p']}}
+            {{session['cut_innercut']}}
+            {{session['cut_overview']}}
+            {{session['cut_schedules_group']}}
+            {{session['cutn_batches']}}
+            {{session['diffusion_model']}}
+            {{session['diffusion_model_config']}}
+            {{session['diffusion_sampling_mode']}}
+            {{session['display_rate']}}
+            {{session['eta']}}
+            {{session['gif_fps']}}
+            {{session['gif_size_ratio']}}
+            {{session['image_output']}}
+            {{session['init_image']}}
+            {{session['init_scale']}}
+            {{session['n_batches']}}
+            {{session['name_docarray']}}
+            {{session['on_misspelled_token']}}
+            {{session['perlin_init']}}
+            {{session['perlin_mode']}}
+            {{session['rand_mag']}}
+            {{session['randomize_class']}}
+            {{session['range_scale']}}
+            {{session['sat_scale']}}
+            {{session['save_rate']}}
+            {{session['seed']}}
+            {{session['skip_event']}}
+            {{session['skip_steps']}}
+            {{session['steps']}}
+            {{session['stop_event']}}
+            {{session['text_clip_on_cpu']}}
+            {{session['text_prompts']}}
+            {{session['transformation_percent']}}
+            {{session['truncate_overlength_prompt']}}
+            {{session['tv_scale']}}
+            {{session['use_horizontal_symmetry']}}
+            {{session['use_secondary_model']}}
+            {{session['use_vertical_symmetry']}}
+            {{session['visualize_cuts']}}
+            {{session['width_height']}}
+        </div>
+        <div class="content-container">
+            <button id="startRender">Start Render</button>
+        </div>
+    </div>
+
+</body>
+</html>
