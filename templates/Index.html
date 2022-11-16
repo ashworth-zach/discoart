@@ -45,89 +45,759 @@
         })();
     </script>
     <div class="container">
-        <div class="content-container prompt-container">
+        <!-- <div class="content-container prompt-container">
             <div class="promp-row prompt-row-0">
                 <input type="text" placeholder="Prompt..." class="prompt-input 0-prompt">  
                 <input type="text" placeholder="Weight" class="prompt-weight-input 0-prompt-weight">
                 <button id="add-prompt-button">Add Prompt +</button>
             </div>
-        </div>
+        </div> -->
         <div class="content-container stuff">
-            <input type="text">
-            <input type="number">
 
-            <form method="post">
-                <label for="title">Title</label>
-                <br>
-                <input type="text" name="title"
-                       placeholder="Message title"
-                       value="{{ request.form['title'] }}"></input>
-                <br>
-        
-                <label for="content">Message Content</label>
-                <br>
-                <textarea name="content"
-                          placeholder="Message content"
-                          rows="15"
-                          cols="60"
-                          >{{ request.form['content'] }}</textarea>
-                <br>
-                <button type="submit">Submit</button>
-            </form>
-            {{session['batch_name']}}
-            {{session['batch_size']}}
-            {{session['clamp_grad']}}
-            {{session['clamp_max']}}
-            {{session['clip_denoised']}}
-            {{session['clip_guidance_scale']}}
-            {{session['clip_models']}}
-            {{session['clip_models_schedules']}}
-            {{session['cut_ic_pow']}}
-            {{session['cut_icgray_p']}}
-            {{session['cut_innercut']}}
-            {{session['cut_overview']}}
-            {{session['cut_schedules_group']}}
-            {{session['cutn_batches']}}
-            {{session['diffusion_model']}}
-            {{session['diffusion_model_config']}}
-            {{session['diffusion_sampling_mode']}}
-            {{session['display_rate']}}
-            {{session['eta']}}
-            {{session['gif_fps']}}
-            {{session['gif_size_ratio']}}
-            {{session['image_output']}}
-            {{session['init_image']}}
-            {{session['init_scale']}}
-            {{session['n_batches']}}
-            {{session['name_docarray']}}
-            {{session['on_misspelled_token']}}
-            {{session['perlin_init']}}
-            {{session['perlin_mode']}}
-            {{session['rand_mag']}}
-            {{session['randomize_class']}}
-            {{session['range_scale']}}
-            {{session['sat_scale']}}
-            {{session['save_rate']}}
-            {{session['seed']}}
-            {{session['skip_event']}}
-            {{session['skip_steps']}}
-            {{session['steps']}}
-            {{session['stop_event']}}
-            {{session['text_clip_on_cpu']}}
-            {{session['text_prompts']}}
-            {{session['transformation_percent']}}
-            {{session['truncate_overlength_prompt']}}
-            {{session['tv_scale']}}
-            {{session['use_horizontal_symmetry']}}
-            {{session['use_secondary_model']}}
-            {{session['use_vertical_symmetry']}}
-            {{session['visualize_cuts']}}
-            {{session['width_height']}}
+            {% block content %}
+                <form method="POST" action="/AddRender">
+                    
+                    <!-- {{ form.csrf_token }} -->
+                    <p>
+                        {{ form.batch_name.label }}
+                        {{ form.batch_name(size=25) }}
+                    </p>
+                    
+                    {% if form.batch_name.errors %}
+                    <ul class="errors">
+                        {% for error in form.batch_name.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.batch_size.label }}
+                        {{ form.batch_size() }}
+                    </p>
+
+                    {% if form.batch_size.errors %}
+                        <ul class="errors">
+                            {% for error in form.batch_size.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.clamp_grad() }} {{ form.clamp_grad.label }}
+                    </p>
+
+                    {% if form.clamp_grad.errors %}
+                        <ul class="errors">
+                            {% for error in form.clamp_grad.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    
+                    <p class="clip_model">
+                        RN50::openai
+                        {{ form.clip_model0() }}
+                    </p>
+
+                    <p class="clip_model">
+                        RN50::yfcc15m
+                        {{ form.clip_model1() }}
+                    </p class="clip_model">
+
+                    <p class="clip_model">
+                        RN50::cc12m
+                        {{ form.clip_model2() }}
+                    </p class="clip_model">
+
+                    <p class="clip_model">
+                        RN50-quickgelu::openai
+                        {{ form.clip_model3() }}
+                    </p class="clip_model">
+
+                    <p class="clip_model">
+                        RN50-quickgelu::yfcc15m
+                        {{ form.clip_model4() }}
+                    </p>
+
+                    <p class="clip_model">
+                        RN50-quickgelu::cc12m
+                        {{ form.clip_model5() }}
+                    </p>
+
+                    <p class="clip_model">
+                        RN101::openai        
+                        {{ form.clip_model6() }}
+                    </p>
+
+                    <p class="clip_model">
+                        RN101::yfcc15m     
+                        {{ form.clip_model7() }}
+                    </p>
+
+                    <p class="clip_model">
+                        RN101-quickgelu::openai
+                        {{ form.clip_model8() }}
+                    </p>
+
+                    <p class="clip_model">
+                        RN101-quickgelu::yfcc15m    
+                        {{ form.clip_model9() }}
+                    </p>
+
+                    <p class="clip_model">
+                        RN50x4::openai        
+                        {{ form.clip_model10() }}
+                    </p>
+
+                    <p class="clip_model">
+                        RN50x16::openai       
+                        {{ form.clip_model11() }}
+                    </p>
+
+                    <p class="clip_model">
+                        RN50x64::openai       
+                        {{ form.clip_model12() }}
+                    </p>
+
+                    <p class="clip_model">
+                        ViT-B-32::openai      
+                        {{ form.clip_model13() }}
+                    </p>
+
+                    <p class="clip_model">
+                        ViT-B-32::laion2b_e16 
+                        {{ form.clip_model14() }}
+                    </p>
+
+                    <p class="clip_model">
+                        ViT-B-32::laion400m_e31
+                        {{ form.clip_model15() }}
+                    </p>
+
+                    <p class="clip_model">
+                        ViT-B-32::laion400m_e32
+                        {{ form.clip_model16() }}
+                    </p>
+
+                    <p class="clip_model">
+                        ViT-B-32-quickgelu::openai
+                        {{ form.clip_model17() }}
+                    </p>
+
+                    <p class="clip_model">
+                        ViT-B-32-quickgelu::laion400m_e31
+                        {{ form.clip_model18() }}
+                    </p>
+
+                    <p class="clip_model">
+                        ViT-B-32-quickgelu::laion400m_e32
+                        {{ form.clip_model19() }}
+                    </p>
+
+                    <p class="clip_model">
+                        ViT-B-16::openai      
+                        {{ form.clip_model20() }}
+                    </p>
+
+                    <p class="clip_model">
+                        ViT-B-16::laion400m_e31          
+                        {{ form.clip_model21() }}
+                    </p>
+
+                    <p class="clip_model">
+                        ViT-B-16::laion400m_e32          
+                        {{ form.clip_model22() }}
+                    </p>
+                    <p class="clip_model">
+                        ViT-B-16-plus-240::laion400m_e31 
+                        {{ form.clip_model23() }}
+                    </p>
+                    <p class="clip_model">
+                        ViT-B-16-plus-240::laion400m_e32 
+                        {{ form.clip_model24() }}
+                    </p>
+                    <p class="clip_model">
+                        ViT-L-14::openai      
+                        {{ form.clip_model25() }}
+                    </p>
+                    <p class="clip_model">
+                        ViT-L-14-336::openai"
+                        {{ form.clip_model26() }}
+                    </p>
+
+                    <p class="clip_model">
+                        {{ form.clamp_max.label }}
+                        {{ form.clamp_max() }}
+                    </p>
+
+                    {% if form.clamp_max.errors %}
+                        <ul class="errors">
+                            {% for error in form.clamp_max.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.clip_denoised.label }}
+                        {{ form.clip_denoised() }}
+                    </p>
+
+                    {% if form.clip_denoised.errors %}
+                        <ul class="errors">
+                            {% for error in form.clip_denoised.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.clip_guidance_scale.label }}
+                        {{ form.clip_guidance_scale() }}
+                    </p>
+
+                    {% if form.clip_guidance_scale.errors %}
+                        <ul class="errors">
+                            {% for error in form.clip_guidance_scale.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+
+                    <p>
+                        {{ form.cut_ic_pow.label }}
+                        {{ form.cut_ic_pow() }}
+                    </p>
+
+                    {% if form.cut_ic_pow.errors %}
+                        <ul class="errors">
+                            {% for error in form.cut_ic_pow.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.cut_icgray_p.label }}
+                        {{ form.cut_icgray_p() }}
+                    </p>
+
+                    {% if form.cut_icgray_p.errors %}
+                        <ul class="errors">
+                            {% for error in form.cut_icgray_p.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.cut_innercut.label }}
+                        {{ form.cut_innercut() }}
+                    </p>
+
+                    {% if form.cut_innercut.errors %}
+                        <ul class="errors">
+                            {% for error in form.cut_innercut.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.cut_overview.label }}
+                        {{ form.cut_overview() }}
+                    </p>
+
+                    {% if form.cut_overview.errors %}
+                        <ul class="errors">
+                            {% for error in form.cut_overview.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.cutn_batches.label }}
+                        {{ form.cutn_batches() }}
+                    </p>
+
+                    {% if form.cutn_batches.errors %}
+                        <ul class="errors">
+                            {% for error in form.cutn_batches.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.diffusion_model.label }}
+                        {{ form.diffusion_model() }}
+                    </p>
+
+                    {% if form.diffusion_model.errors %}
+                        <ul class="errors">
+                            {% for error in form.diffusion_model.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.diffusion_sampling_mode.label }}
+                        {{ form.diffusion_sampling_mode() }}
+                    </p>
+
+                    {% if form.diffusion_sampling_mode.errors %}
+                        <ul class="errors">
+                            {% for error in form.diffusion_sampling_mode.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.display_rate.label }}
+                        {{ form.display_rate() }}
+                    </p>
+
+                    {% if form.display_rate.errors %}
+                        <ul class="errors">
+                            {% for error in form.display_rate.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.eta.label }}
+                        {{ form.eta() }}
+                    </p>
+
+                    {% if form.eta.errors %}
+                        <ul class="errors">
+                            {% for error in form.eta.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.gif_fps.label }}
+                        {{ form.gif_fps() }}
+                    </p>
+
+                    {% if form.gif_fps.errors %}
+                        <ul class="errors">
+                            {% for error in form.gif_fps.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.gif_size_ratio.label }}
+                        {{ form.gif_size_ratio() }}
+                    </p>
+
+                    {% if form.gif_size_ratio.errors %}
+                        <ul class="errors">
+                            {% for error in form.gif_size_ratio.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.image_output.label }}
+                        {{ form.image_output() }}
+                    </p>
+
+                    {% if form.image_output.errors %}
+                        <ul class="errors">
+                            {% for error in form.image_output.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.init_scale.label }}
+                        {{ form.init_scale() }}
+                    </p>
+
+                    {% if form.init_scale.errors %}
+                        <ul class="errors">
+                            {% for error in form.init_scale.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.n_batches.label }}
+                        {{ form.n_batches() }}
+                    </p>
+
+                    {% if form.n_batches.errors %}
+                        <ul class="errors">
+                            {% for error in form.n_batches.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.name_docarray.label }}
+                        {{ form.name_docarray() }}
+                    </p>
+
+                    {% if form.name_docarray.errors %}
+                        <ul class="errors">
+                            {% for error in form.name_docarray.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.on_misspelled_token.label }}
+                        {{ form.on_misspelled_token() }}
+                    </p>
+
+                    {% if form.on_misspelled_token.errors %}
+                        <ul class="errors">
+                            {% for error in form.on_misspelled_token.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.perlin_init.label }}
+                        {{ form.perlin_init() }}
+                    </p>
+
+                    {% if form.perlin_init.errors %}
+                        <ul class="errors">
+                            {% for error in form.perlin_init.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.perlin_mode.label }}
+                        {{ form.perlin_mode() }}
+                    </p>
+
+                    {% if form.perlin_mode.errors %}
+                        <ul class="errors">
+                            {% for error in form.perlin_mode.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.rand_mag.label }}
+                        {{ form.rand_mag() }}
+                    </p>
+
+                    {% if form.rand_mag.errors %}
+                        <ul class="errors">
+                            {% for error in form.rand_mag.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <p>
+                        {{ form.randomize_class.label }}
+                        {{ form.randomize_class() }}
+                    </p>
+
+                    {% if form.randomize_class.errors %}
+                        <ul class="errors">
+                            {% for error in form.randomize_class.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                                        
+                    <p>
+                        {{ form.range_scale.label }}
+                        {{ form.range_scale() }}
+                    </p>
+                    <p>
+                        {{ form.sat_scale.label }}
+                        {{ form.sat_scale() }}
+                    </p>
+                    <p>
+                        {{ form.save_rate.label }}
+                        {{ form.save_rate() }}
+                    </p>
+                    <p>
+                        {{ form.seed.label }}
+                        {{ form.seed() }}
+                    </p>
+                    <p>
+                        {{ form.skip_steps.label }}
+                        {{ form.skip_steps() }}
+                    </p>
+                    <p>
+                        {{ form.steps.label }}
+                        {{ form.steps() }}
+                    </p>
+
+                    <p>
+                        {{ form.use_horizontal_symmetry.label }}
+                        {{ form.use_horizontal_symmetry() }}
+                    </p>
+                    <p>
+                        {{ form.use_secondary_model.label }}
+                        {{ form.use_secondary_model() }}
+                    </p>
+                    
+                    <p>
+                        {{ form.text_prompt.label }}
+                        {{ form.text_prompt() }}
+                    </p>
+
+                    <p>
+                        {{ form.truncate_overlength_prompt.label }}
+                        {{ form.truncate_overlength_prompt() }}
+                    </p>
+                    <p>
+                        {{ form.tv_s.label }}
+                        {{ form.tv_s() }}
+                    </p>
+
+                    <p>
+                        {{ form.use_vertical_symmetry.label }}
+                        {{ form.use_vertical_symmetry() }}
+                    </p>
+                    <p>
+                        {{ form.visualize_cuts.label }}
+                        {{ form.visualize_cuts() }}
+                    </p>
+                    <p>
+                        {{ form.width.label }}
+                        {{ form.width() }}
+                    </p>
+                    <p>
+                        {{ form.height.label }}
+                        {{ form.height() }}
+                    </p>
+                    <input type="submit" value="Add">
+                </form>
+
+            {% endblock %}
+            {{defaults['batch_name']}}
+            {{defaults['batch_size']}}
+            {{defaults['clamp_grad']}}
+            {{defaults['clamp_max']}}
+            {{defaults['clip_denoised']}}
+            {{defaults['clip_guidance_scale']}}
+            <!-- {{defaults['clip_models']}}
+            {{defaults['clip_models_schedules']}} -->
+            {{defaults['cut_ic_pow']}}
+            {{defaults['cut_icgray_p']}}
+            {{defaults['cut_innercut']}}
+            {{defaults['cut_overview']}}
+            {{defaults['cut_schedules_group']}}
+            {{defaults['cutn_batches']}}
+            {{defaults['diffusion_model']}}
+            {{defaults['diffusion_model_config']}}
+            {{defaults['diffusion_sampling_mode']}}
+            {{defaults['display_rate']}}
+            {{defaults['eta']}}
+            {{defaults['gif_fps']}}
+            {{defaults['gif_size_ratio']}}
+            {{defaults['image_output']}}
+            {{defaults['init_image']}}
+            {{defaults['init_scale']}}
+            {{defaults['n_batches']}}
+            {{defaults['name_docarray']}}
+            {{defaults['on_misspelled_token']}}
+            {{defaults['perlin_init']}}
+            {{defaults['perlin_mode']}}
+            {{defaults['rand_mag']}}
+            {{defaults['randomize_class']}}
+            {{defaults['range_scale']}}
+            {{defaults['sat_scale']}}
+            {{defaults['save_rate']}}
+            {{defaults['seed']}}
+            {{defaults['skip_event']}}
+            {{defaults['skip_steps']}}
+            {{defaults['steps']}}
+            {{defaults['stop_event']}}
+            {{defaults['text_clip_on_cpu']}}
+            {{defaults['text_prompts']}}
+            {{defaults['transformation_percent']}}
+            {{defaults['truncate_overlength_prompt']}}
+            {{defaults['tv_scale']}}
+            {{defaults['use_horizontal_symmetry']}}
+            {{defaults['use_secondary_model']}}
+            {{defaults['use_vertical_symmetry']}}
+            {{defaults['visualize_cuts']}}
+            {{defaults['width_height']}}
         </div>
         <div class="content-container">
             <button id="startRender">Start Render</button>
         </div>
     </div>
-
+    
 </body>
 </html>
+
+
+
+<!-- <form method="post">
+    <label for="batch_name">batch_name</label>
+    <br>
+    <input type="text" name="batch_name"
+           placeholder="batch_name"
+           value="{{ session['batch_name'] }}"></input>
+    <br>
+
+    <label for="batch_size">batch_size</label>
+    <br>
+    <input type="number" name="batch_size"
+           placeholder="batch_size"
+           value="{{ session['batch_size'] }}"></input>
+    <br>
+    {{session['clamp_grad']}}
+    <label for="clamp_grad">clamp_grad</label>
+    <br>
+    <input type="checkbox" name="clamp_grad"
+        checked="{{ session['clamp_grad'] }}"></input>
+    <br>
+
+    <label for="clamp_grad">clamp_grad</label>
+    <br>
+    <input type="checkbox" name="clamp_grad"
+        value="{{ session['clamp_grad'] }}"></input>
+    <br>
+
+    <label for="clamp_max"></label>
+    <br>
+    <input type="range" min="0" max="1.5" step="0.01" name="clamp_max"
+           placeholder="clamp_max"
+           value="{{ session['clamp_max'] }}"></input>
+    <br>
+
+    <label for="clip_denoised">clip_denoised</label>
+    <br>
+    <input type="checkbox" name="clip_denoised"></input>
+    <br>
+
+    <label for="clip_guidance_scale">clip_guidance_scale</label>
+    <br>
+    <input type="number" name="clip_guidance_scale"
+           placeholder="clip_guidance_scale"
+           value="{{ session['clip_guidance_scale'] }}"></input>
+    <br>
+
+     <label for="clip_models">clip_models</label> TODO make interface for clip models
+    <br>
+    <input type="radio" name="clip_models"
+           placeholder="clip_models"
+           value="{{ session['clip_models'] }}"></input>
+    <br>
+
+    TODO MAKE INTERFACE FOR NONE TYPES CLIP_MODELS_SCHEDULES CUT_SCHEDULES_GROUP,diffusion_model_config,init_image skip_event,stop_event,text_clip_on_cpu
+
+    <label for="cut_ic_pow">cut_ic_pow</label>
+    <br>
+    <input type="number" name="cut_ic_pow"
+           placeholder="cut_ic_pow"
+           value="{{ session['cut_ic_pow'] }}"></input>
+    <br>
+    
+    <label for="cut_icgray_p">cut_icgray_p</label>
+    <br>
+    <input type="text" name="cut_icgray_p"
+           placeholder="cut_icgray_p"
+           value="{{ session['cut_icgray_p'] }}"></input>
+    <br>
+
+    <label for="cut_innercut">cut_innercut</label>
+    <br>
+    <input type="text" name="cut_innercut"
+           placeholder="cut_innercut"
+           value="{{ session['cut_innercut'] }}"></input>
+    <br>
+
+    <label for="cut_overview">cut_overview</label>
+    <br>
+    <input type="text" name="cut_overview"
+           placeholder="cut_overview"
+           value="{{ session['cut_overview'] }}"></input>
+    <br> 
+
+    <label for="cutn_batches">cutn_batches</label>
+    <br>
+    <input type="number" name="cutn_batches"
+           placeholder="cutn_batches"
+           value="{{ session['cutn_batches'] }}"></input>
+    <br>
+
+    <label for="diffusion_model">diffusion_model</label>
+    <br>
+    <input type="text" name="diffusion_model"
+           placeholder="diffusion_model"
+           value="{{ session['diffusion_model'] }}"></input>
+    <br>
+
+    <label for="diffusion_sampling_mode">diffusion_sampling_mode</label>
+    <br>
+    <input type="text" name="diffusion_sampling_mode"
+           placeholder="diffusion_sampling_mode"
+           value="{{ session['diffusion_sampling_mode'] }}"></input>
+    <br>
+
+    <label for="eta">eta</label>
+    <br>
+    <input type="number" name="eta"
+           placeholder="eta"
+           value="{{ session['eta'] }}"></input>
+    <br>
+
+    <label for="init_scale">init_scale</label>
+    <br>
+    <input type="text" name="init_scale"
+           placeholder="init_scale"
+           value="{{ session['init_scale'] }}"></input>
+    <br>
+
+    <label for="n_batches">cutn_batches</label>
+    <br>
+    <input type="number" name="cutn_batches"
+           placeholder="cutn_batches"
+           value="{{ session['cutn_batches'] }}"></input>
+    <br>
+
+    <label for="name_docarray">name_docarray</label>
+    <br>
+    <input type="text" name="name_docarray"
+           placeholder="name_docarray"
+           value="{{ session['name_docarray'] }}"></input>
+    <br>
+
+    <label for="perlin_init">perlin_init</label>
+    <br>
+    <input type="checkbox" name="perlin_init"></input>
+    <br>
+
+    <label for="perlin_mode">perlin_mode</label>
+    <br>
+    <input type="text" name="perlin_mode"
+           placeholder="perlin_mode"
+           value="{{ session['perlin_mode'] }}"></input>
+    <br>
+    <button type="submit">Submit</button>
+</form> -->

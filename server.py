@@ -11,148 +11,157 @@ app.secret_key = "ThisIsSecret!"
 
 queue = []; #first in first out
 
-all_clip_models = [{name:"RN50::openai",checked=True},
-{name:"RN50::yfcc15m",checked=False},
-{name:"RN50::cc12m",checked=False},
-{name:"RN50-quickgelu::openai",checked=False},
-{name:"RN50-quickgelu::yfcc15m",checked=False},
-{name:"RN50-quickgelu::cc12m",checked=False},
-{name:"RN101::openai",checked=False},        
-{name:"RN101::yfcc15m",checked=False},       
-{name:"RN101-quickgelu::openai",checked=False},          
-{name:"RN101-quickgelu::yfcc15m",checked=False},         
-{name:"RN50x4::openai",checked=False},        
-{name:"RN50x16::openai",checked=False},       
-{name:"RN50x64::openai",checked=False},       
-{name:"ViT-B-32::openai",checked=True},      
-{name:"ViT-B-32::laion2b_e16",checked=False}, 
-{name:"ViT-B-32::laion400m_e31",checked=False},
-{name:"ViT-B-32::laion400m_e32",checked=False},
-{name:"ViT-B-32-quickgelu::openai",checked=False},
-{name:"ViT-B-32-quickgelu::laion400m_e31",checked=False},
-{name:"ViT-B-32-quickgelu::laion400m_e32",checked=False},
-{name:"ViT-B-16::openai",checked=True},      
-{name:"ViT-B-16::laion400m_e31",checked=False},          
-{name:"ViT-B-16::laion400m_e32",checked=False},           
-{name:"ViT-B-16-plus-240::laion400m_e31",checked=False},  
-{name:"ViT-B-16-plus-240::laion400m_e32",checked=False},  
-{name:"ViT-L-14::openai",checked=False},      
-{name:"ViT-L-14-336::openai",checked=False}]
 default_clip_models = ['ViT-B-32::openai', 'ViT-B-16::openai', 'RN50::openai']
+
+
+defaults = {}
+defaults['batch_name'] ="DiscoTest"
+defaults['batch_size'] =1
+defaults['clamp_grad'] =True
+defaults['clamp_max'] =0.25
+defaults['clip_denoised'] =False
+defaults['clip_guidance_scale'] =14000
+defaults['clip_models'] =['ViT-B-32::openai', 'ViT-B-16::openai', 'RN50::openai']
+defaults['clip_models_schedules'] =None 
+defaults['cut_ic_pow'] =1.0 
+defaults['cut_icgray_p'] ='[0.2]*400+[0]*600'
+defaults['cut_innercut'] ='[4]*400+[12]*600'
+defaults['cut_overview'] ='[12]*400+[4]*600'
+defaults['cut_schedules_group'] =None
+defaults['cutn_batches'] =4
+defaults['diffusion_model'] ='512x512_diffusion_uncond_finetune_008100'
+defaults['diffusion_model_config'] =None
+defaults['diffusion_sampling_mode'] ='ddim'
+defaults['display_rate'] =1
+defaults['eta'] =0.8 
+defaults['gif_fps'] =20
+defaults['gif_size_ratio'] =0.5
+defaults['image_output'] =True
+defaults['init_image'] =None
+defaults['init_scale'] =1000
+defaults['n_batches'] =4
+defaults['name_docarray'] ='discoart-0df4d0c8654811ed8b84c4bde571e200'
+defaults['on_misspelled_token'] ='ignore'
+defaults['perlin_init'] =False
+defaults['perlin_mode'] ='mixed'
+defaults['rand_mag'] =0.05
+defaults['randomize_class'] =True
+defaults['range_scale'] =150
+defaults['sat_scale'] =0
+defaults['save_rate'] =20
+defaults['seed'] =-1
+defaults['skip_event'] =None
+defaults['skip_steps'] =0
+defaults['steps'] =900
+defaults['stop_event'] =None
+defaults['text_clip_on_cpu'] =None
+defaults['text_prompt'] = ['A beautiful painting of a singular lighthouse, shining its light across a tumultuous sea of blood by greg rutkowski and thomas kinkade, Trending on artstation.', 'yellow color scheme']
+defaults['transformation_percent'] =[0.09]
+defaults['truncate_overlength_prompt'] =False
+defaults['tv_s'] =0
+defaults['use_horizontal_symmetry'] =False
+defaults['use_secondary_model'] =True
+defaults['use_vertical_symmetry'] =False
+defaults['visualize_cuts'] =False
+defaults['width_height'] =[1280, 768]
 
 
 class DefaultSettings(FlaskForm):
     # description = TextAreaField('Course Description',
     #                             validators=[InputRequired(),
     #                                         Length(max=200)])
-    batch_name = StringField('batch_name')
-    batch_size = IntegerField('batch_size')
+    batch_name = StringField('batch_name', default=defaults['batch_name'])
+    batch_size = IntegerField('batch_size', default=defaults['batch_size'])
     clamp_grad = BooleanField('clamp_grad', default='checked')
-    clamp_max = DecimalField('clamp_max')
-    clip_denoised = BooleanField('clip_denoised')
-    clip_guidance_scale = IntegerField('clip_guidance_scale')
-    clip_models = SelectMultipleField('clip_models',
-                       choices=all_clip_models,
-                       default=default_clip_models)
-    cut_ic_pow = DecimalField('cut_ic_pow')
-    cut_icgray_p = StringField('cut_icgray_p')
-    cut_innercut = StringField('cut_innercut')
-    cut_overview = StringField('cut_overview')
-    cutn_batches = IntegerField('cutn_batches')
-    diffusion_model = StringField('diffusion_model')
-    diffusion_sampling_mode = StringField('diffusion_sampling_mode')
-    display_rate = IntegerField('display_rate')
-    eta = DecimalField('eta')
-    gif_fps = IntegerField('gif_fps')
-    gif_size_ratio = DecimalField('gif_size_ratio')
-    image_output = BooleanField('image_output', default='checked')
-    init_scale = IntegerField('init_scale')
-    n_batches = IntegerField('n_batches')
-    name_docarray = StringField('name_docarray')
-    on_misspelled_token = StringField('on_misspelled_token')
-    perlin_init = BooleanField('perlin_init')
-    perlin_mode = StringField('perlin_mode')
-    rand_mag = DecimalField('rand_mag')
-    randomize_class = BooleanField('randomize_class', default='checked')
-    range_scale = IntegerField('range_scale')
-    sat_scale = IntegerField('sat_scale')
-    save_rate = IntegerField('save_rate')
-    seed = StringField('seed')
+    clamp_max = DecimalField('clamp_max', default=defaults['clamp_max'])
+    clip_denoised = BooleanField('clip_denoised', default=defaults['clip_denoised'])
+    clip_guidance_scale = IntegerField('clip_guidance_scale', default=defaults['clip_guidance_scale'])
 
-    seed = StringField('seed')
-    skip_steps = IntegerField('skip_steps')
-    steps = IntegerField('steps')
-    text_prompt = StringField('text_prompt')
-    transformation_percent = DecimalField('transformation_percent')
-    truncate_overlength_prompt = BooleanField('truncate_overlength_prompt')
-    tv_s = DecimalField('tv_s')
-    use_horizontal_symmetry = BooleanField('use_horizontal_symmetry')
+    clip_model0 = BooleanField("clip_model0", default='checked') #RN50::openai 
+    clip_model1 = BooleanField("clip_model1") #RN50::yfcc15m
+    clip_model2 = BooleanField("clip_model2") #RN50::cc12m
+    clip_model3 = BooleanField("clip_model3") #RN50-quickgelu::openai
+    clip_model4 = BooleanField("clip_model4") #RN50-quickgelu::yfcc15m
+    clip_model5 = BooleanField("clip_model5") #RN50-quickgelu::cc12m
+    clip_model6 = BooleanField("clip_model6") #RN101::openai
+    clip_model7 = BooleanField("clip_model7") #RN101::yfcc15m   
+    clip_model8 = BooleanField("clip_model8") #RN101-quickgelu::openai      
+    clip_model9 = BooleanField("clip_model9") #RN101-quickgelu::yfcc15m      
+    clip_model10 = BooleanField("clip_model10") #RN50x4::openai      
+    clip_model11 = BooleanField("clip_model11") #RN50x16::openai     
+    clip_model12 = BooleanField("clip_model12") #RN50x64::openai     
+    clip_model13 = BooleanField("clip_model13", default='checked') #ViT-B-32::openai    
+    clip_model14 = BooleanField("clip_model14") #ViT-B-32::laion2b_e16
+    clip_model15 = BooleanField("clip_model15") #ViT-B-32::laion400m_e31
+    clip_model16 = BooleanField("clip_model16") #ViT-B-32::laion400m_e32
+    clip_model17 = BooleanField("clip_model17") #ViT-B-32-quickgelu::openai
+    clip_model18 = BooleanField("clip_model18") #ViT-B-32-quickgelu::laion400m_e31
+    clip_model19 = BooleanField("clip_model19") #ViT-B-32-quickgelu::laion400m_e32
+    clip_model20 = BooleanField("clip_model20", default='checked') #ViT-B-16::openai    
+    clip_model21 = BooleanField("clip_model21") #ViT-B-16::laion400m_e31        
+    clip_model22 = BooleanField("clip_model22") #ViT-B-16::laion400m_e32        
+    clip_model23 = BooleanField("clip_model23") #ViT-B-16-plus-240::laion400m_e31
+    clip_model24 = BooleanField("clip_model24") #ViT-B-16-plus-240::laion400m_e32
+    clip_model25 = BooleanField("clip_model25") #ViT-L-14::openai    
+    clip_model26 = BooleanField("clip_model26") #ViT-L-14-336::opena
+    cut_ic_pow = DecimalField('cut_ic_pow', default=defaults['cut_ic_pow'])
+    cut_icgray_p = StringField('cut_icgray_p', default=defaults['cut_icgray_p'])
+    cut_innercut = StringField('cut_innercut', default=defaults['cut_innercut'])
+    cut_overview = StringField('cut_overview', default=defaults['cut_overview'])
+    cutn_batches = IntegerField('cutn_batches', default=defaults['cutn_batches'])
+    diffusion_model = StringField('diffusion_model', default=defaults['diffusion_model'])
+    diffusion_sampling_mode = StringField('diffusion_sampling_mode', default=defaults['diffusion_sampling_mode'])
+    display_rate = IntegerField('display_rate', default=defaults['display_rate'])
+    eta = DecimalField('eta', default=defaults['eta'])
+    gif_fps = IntegerField('gif_fps', default=defaults['gif_fps'])
+    gif_size_ratio = DecimalField('gif_size_ratio', default=defaults['gif_size_ratio'])
+    image_output = BooleanField('image_output', default='checked')
+    init_scale = IntegerField('init_scale', default=defaults['init_scale'])
+    n_batches = IntegerField('n_batches', default=defaults['n_batches'])
+    name_docarray = StringField('name_docarray', default=defaults['name_docarray'])
+    on_misspelled_token = StringField('on_misspelled_token', default=defaults['on_misspelled_token'])
+    perlin_init = BooleanField('perlin_init', default=defaults['perlin_init'])
+    perlin_mode = StringField('perlin_mode', default=defaults['perlin_mode'])
+    rand_mag = DecimalField('rand_mag', default=defaults['rand_mag'])
+    randomize_class = BooleanField('randomize_class', default='checked')
+    range_scale = IntegerField('range_scale', default=defaults['range_scale'])
+    sat_scale = IntegerField('sat_scale', default=defaults['sat_scale'])
+    save_rate = IntegerField('save_rate', default=defaults['save_rate'])
+    seed = StringField('seed', default=defaults['seed'])
+    skip_steps = IntegerField('skip_steps', default=defaults['skip_steps'])
+    steps = IntegerField('steps', default=defaults['steps'])
+    text_prompt = TextAreaField('text_prompt', default=defaults['text_prompt'])
+    transformation_percent = DecimalField('transformation_percent', default=defaults['transformation_percent'])
+    truncate_overlength_prompt = BooleanField('truncate_overlength_prompt', default=defaults['truncate_overlength_prompt'])
+    tv_s = DecimalField('tv_s', default=defaults['tv_s'])
+    use_horizontal_symmetry = BooleanField('use_horizontal_symmetry', default=defaults['use_horizontal_symmetry'])
     use_secondary_model = BooleanField('use_secondary_model',default='checked')
-    use_vertical_symmetry = BooleanField('use_vertical_symmetry')
-    visualize_cuts = BooleanField('visualize_cuts')
-    width = IntegerField('width')
-    height = IntegerField('height')
+    use_vertical_symmetry = BooleanField('use_vertical_symmetry', default=defaults['use_vertical_symmetry'])
+    visualize_cuts = BooleanField('visualize_cuts', default=defaults['visualize_cuts'])
+    width = IntegerField('width', default=1280)
+    height = IntegerField('height', default=768)
 
 @app.route('/',methods=['GET'])
 def index():
-    session['batch_name'] ="DiscoTest"
-    session['batch_size'] =1
-    session['clamp_grad'] =True
-    session['clamp_max'] =0.25
-    session['clip_denoised'] =False
-    session['clip_guidance_scale'] =14000
-    session['clip_models'] =['ViT-B-32::openai', 'ViT-B-16::openai', 'RN50::openai']
-    session['clip_models_schedules'] =None 
-    session['cut_ic_pow'] =1.0 
-    session['cut_icgray_p'] ='[0.2]*400+[0]*600'
-    session['cut_innercut'] ='[4]*400+[12]*600'
-    session['cut_overview'] ='[12]*400+[4]*600'
-    session['cut_schedules_group'] =None
-    session['cutn_batches'] =4
-    session['diffusion_model'] ='512x512_diffusion_uncond_finetune_008100'
-    session['diffusion_model_config'] =None
-    session['diffusion_sampling_mode'] ='ddim'
-    session['display_rate'] =1
-    session['eta'] =0.8 
-    session['gif_fps'] =20
-    session['gif_size_ratio'] =0.5
-    session['image_output'] =True
-    session['init_image'] =None
-    session['init_scale'] =1000
-    session['n_batches'] =4
-    session['name_docarray'] ='discoart-0df4d0c8654811ed8b84c4bde571e200'
-    session['on_misspelled_token'] ='ignore'
-    session['perlin_init'] =False
-    session['perlin_mode'] ='mixed'
-    session['rand_mag'] =0.05
-    session['randomize_class'] =True
-    session['range_scale'] =150
-    session['sat_scale'] =0
-    session['save_rate'] =20
-    session['seed'] =-1
-    session['skip_event'] =None
-    session['skip_steps'] =0
-    session['steps'] =900
-    session['stop_event'] =None
-    session['text_clip_on_cpu'] =None
-    session['text_prompt'] = ['A beautiful painting of a singular lighthouse, shining its light across a tumultuous sea of blood by greg rutkowski and thomas kinkade, Trending on artstation.', 'yellow color scheme']
-    session['transformation_percent'] =[0.09]
-    session['truncate_overlength_prompt'] =False
-    session['tv_s'] =0
-    session['use_horizontal_symmetry'] =False
-    session['use_secondary_model'] =True
-    session['use_vertical_symmetry'] =False
-    session['visualize_cuts'] =False
-    session['width_height'] =[1280, 768]
     print("session",session['tv_s'])
-    return render_template('index.html', form = DefaultSettings())
+    return render_template('index.html', form = DefaultSettings(), defaults=defaults)
 
 
-@app.route('/startRender', methods=['POST'])
+@app.route('/AddRender', methods=['POST'])
 def startRender():
-    for key in session:
+    print(request.form)
+    newObject = []
+    for key in request.form:
+        if(request.form[key]=='y'):
+            newObject.append((key,True))
+        else:
+            newObject.append((key,request.form[key]))
+
         print(key)
-        print(session[key])
+        print(request.form[key])
+    for key in newObject:
+        print(key)
+        print(newObject[key])
     return render_template('rendering.html',form=DefaultSettings())
 
     
@@ -294,3 +303,4 @@ if __name__ == "__main__":
 # "ViT-B-16-plus-240::laion400m_e32",  
 # "ViT-L-14::openai",      
 # "ViT-L-14-336::openai"
+

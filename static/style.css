@@ -38,3 +38,19 @@
 .stuff {
     /* white-space: pre; */
 }
+
+#text_prompt {
+    width: 100%;
+}
+
+label{
+    font: 15px;
+    color: black;
+    font-weight: bold;
+}
+
+.clip_model{
+    font: 15px;
+    color: black;
+    font-weight: bold;
+}
