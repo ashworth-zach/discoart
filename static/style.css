@@ -1,5 +1,4 @@
-.content-container
-{
+.content-container {
     background-color: goldenrod;
     width: 100%;
     height: 100%;
@@ -9,30 +8,33 @@
 
 
 
-.prompt-container{
-    width:100%;
+.prompt-container {
+    width: 100%;
 }
-.prompt-row{
-    width:100%;
-    padding:10px;
+
+.prompt-row {
+    width: 100%;
+    padding: 10px;
     justify-content: center;
 }
-.add-prompt-button{
-    
-}
-.prompt-input{
+
+.add-prompt-button {}
+
+.prompt-input {
     width: 75%;
-    display:inline-block;
+    display: inline-block;
 }
-.prompt-weight-input{
-    width:10%;
+
+.prompt-weight-input {
+    width: 10%;
     display: inline-block;
     /* padding-left: 10px; */
 }
-.removebutton{
+
+.removebutton {
     /* padding-left: 10px; */
 }
 
-.stuff{
-    white-space: pre;
+.stuff {
+    /* white-space: pre; */
 }
