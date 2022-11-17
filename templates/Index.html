@@ -563,8 +563,8 @@
                     </p>
                     
                     <p>
-                        {{ form.text_prompt.label }}
-                        {{ form.text_prompt() }}
+                        {{ form.text_prompts.label }}
+                        {{ form.text_prompts() }}
                     </p>
 
                     <p>
@@ -572,8 +572,8 @@
                         {{ form.truncate_overlength_prompt() }}
                     </p>
                     <p>
-                        {{ form.tv_s.label }}
-                        {{ form.tv_s() }}
+                        {{ form.tv_scale.label }}
+                        {{ form.tv_scale() }}
                     </p>
 
                     <p>
@@ -596,61 +596,57 @@
                 </form>
 
             {% endblock %}
-            {{defaults['batch_name']}}
-            {{defaults['batch_size']}}
-            {{defaults['clamp_grad']}}
-            {{defaults['clamp_max']}}
-            {{defaults['clip_denoised']}}
-            {{defaults['clip_guidance_scale']}}
-            <!-- {{defaults['clip_models']}}
-            {{defaults['clip_models_schedules']}} -->
-            {{defaults['cut_ic_pow']}}
-            {{defaults['cut_icgray_p']}}
-            {{defaults['cut_innercut']}}
-            {{defaults['cut_overview']}}
-            {{defaults['cut_schedules_group']}}
-            {{defaults['cutn_batches']}}
-            {{defaults['diffusion_model']}}
-            {{defaults['diffusion_model_config']}}
-            {{defaults['diffusion_sampling_mode']}}
-            {{defaults['display_rate']}}
-            {{defaults['eta']}}
-            {{defaults['gif_fps']}}
-            {{defaults['gif_size_ratio']}}
-            {{defaults['image_output']}}
-            {{defaults['init_image']}}
-            {{defaults['init_scale']}}
-            {{defaults['n_batches']}}
-            {{defaults['name_docarray']}}
-            {{defaults['on_misspelled_token']}}
-            {{defaults['perlin_init']}}
-            {{defaults['perlin_mode']}}
-            {{defaults['rand_mag']}}
-            {{defaults['randomize_class']}}
-            {{defaults['range_scale']}}
-            {{defaults['sat_scale']}}
-            {{defaults['save_rate']}}
-            {{defaults['seed']}}
-            {{defaults['skip_event']}}
-            {{defaults['skip_steps']}}
-            {{defaults['steps']}}
-            {{defaults['stop_event']}}
-            {{defaults['text_clip_on_cpu']}}
-            {{defaults['text_prompts']}}
-            {{defaults['transformation_percent']}}
-            {{defaults['truncate_overlength_prompt']}}
-            {{defaults['tv_scale']}}
-            {{defaults['use_horizontal_symmetry']}}
-            {{defaults['use_secondary_model']}}
-            {{defaults['use_vertical_symmetry']}}
-            {{defaults['visualize_cuts']}}
-            {{defaults['width_height']}}
+            
         </div>
-        <div class="content-container">
-            <button id="startRender">Start Render</button>
-        </div>
+        {{defaults['batch_name']}}
+        {{defaults['batch_size']}}
+        {{defaults['clamp_grad']}}
+        {{defaults['clamp_max']}}
+        {{defaults['clip_denoised']}}
+        {{defaults['clip_guidance_scale']}}
+        <!-- {{defaults['clip_models']}}
+        {{defaults['clip_models_schedules']}} -->
+        {{defaults['cut_ic_pow']}}
+        {{defaults['cut_icgray_p']}}
+        {{defaults['cut_innercut']}}
+        {{defaults['cut_overview']}}
+        {{defaults['cut_schedules_group']}}
+        {{defaults['cutn_batches']}}
+        {{defaults['diffusion_model']}}
+        {{defaults['diffusion_model_config']}}
+        {{defaults['diffusion_sampling_mode']}}
+        {{defaults['display_rate']}}
+        {{defaults['eta']}}
+        {{defaults['gif_fps']}}
+        {{defaults['gif_size_ratio']}}
+        {{defaults['image_output']}}
+        {{defaults['init_image']}}
+        {{defaults['init_scale']}}
+        {{defaults['n_batches']}}
+        {{defaults['name_docarray']}}
+        {{defaults['on_misspelled_token']}}
+        {{defaults['perlin_init']}}
+        {{defaults['perlin_mode']}}
+        {{defaults['rand_mag']}}
+        {{defaults['randomize_class']}}
+        {{defaults['range_scale']}}
+        {{defaults['sat_scale']}}
+        {{defaults['save_rate']}}
+        {{defaults['seed']}}
+        {{defaults['skip_event']}}
+        {{defaults['skip_steps']}}
+        {{defaults['steps']}}
+        {{defaults['stop_event']}}
+        {{defaults['text_clip_on_cpu']}}
+        {{defaults['text_prompts']}}
+        {{defaults['transformation_percent']}}
+        {{defaults['truncate_overlength_prompt']}}
+        {{defaults['use_horizontal_symmetry']}}
+        {{defaults['use_secondary_model']}}
+        {{defaults['use_vertical_symmetry']}}
+        {{defaults['visualize_cuts']}}
+        {{defaults['width_height']}}
     </div>
-    
 </body>
 </html>
 

@@ -5,6 +5,9 @@ from wtforms import (StringField, TextAreaField, IntegerField, BooleanField,
 from wtforms.validators import InputRequired, Length
 import datetime
 import re
+from discoart import create
+from random import randrange
+
 
 app = Flask(__name__)
 app.secret_key = "ThisIsSecret!"
@@ -15,7 +18,7 @@ default_clip_models = ['ViT-B-32::openai', 'ViT-B-16::openai', 'RN50::openai']
 
 
 defaults = {}
-defaults['batch_name'] ="DiscoTest"
+defaults['batch_name'] =55
 defaults['batch_size'] =1
 defaults['clamp_grad'] =True
 defaults['clamp_max'] =0.25
@@ -49,16 +52,16 @@ defaults['randomize_class'] =True
 defaults['range_scale'] =150
 defaults['sat_scale'] =0
 defaults['save_rate'] =20
-defaults['seed'] =-1
+defaults['seed'] = randrange(4294967295)
 defaults['skip_event'] =None
 defaults['skip_steps'] =0
 defaults['steps'] =900
 defaults['stop_event'] =None
 defaults['text_clip_on_cpu'] =None
-defaults['text_prompt'] = ['A beautiful painting of a singular lighthouse, shining its light across a tumultuous sea of blood by greg rutkowski and thomas kinkade, Trending on artstation.', 'yellow color scheme']
+defaults['text_prompts'] = ['A beautiful painting of a singular lighthouse, shining its light across a tumultuous sea of blood by greg rutkowski and thomas kinkade, Trending on artstation.', 'yellow color scheme']
 defaults['transformation_percent'] =[0.09]
 defaults['truncate_overlength_prompt'] =False
-defaults['tv_s'] =0
+defaults['tv_scale'] =0
 defaults['use_horizontal_symmetry'] =False
 defaults['use_secondary_model'] =True
 defaults['use_vertical_symmetry'] =False
@@ -70,7 +73,7 @@ class DefaultSettings(FlaskForm):
     # description = TextAreaField('Course Description',
     #                             validators=[InputRequired(),
     #                                         Length(max=200)])
-    batch_name = StringField('batch_name', default=defaults['batch_name'])
+    batch_name = IntegerField('batch_name', default=defaults['batch_name'])
     batch_size = IntegerField('batch_size', default=defaults['batch_size'])
     clamp_grad = BooleanField('clamp_grad', default='checked')
     clamp_max = DecimalField('clamp_max', default=defaults['clamp_max'])
@@ -130,10 +133,10 @@ class DefaultSettings(FlaskForm):
     seed = StringField('seed', default=defaults['seed'])
     skip_steps = IntegerField('skip_steps', default=defaults['skip_steps'])
     steps = IntegerField('steps', default=defaults['steps'])
-    text_prompt = TextAreaField('text_prompt', default=defaults['text_prompt'])
+    text_prompts = TextAreaField('text_prompts', default=defaults['text_prompts'])
     transformation_percent = DecimalField('transformation_percent', default=defaults['transformation_percent'])
     truncate_overlength_prompt = BooleanField('truncate_overlength_prompt', default=defaults['truncate_overlength_prompt'])
-    tv_s = DecimalField('tv_s', default=defaults['tv_s'])
+    tv_scale = IntegerField('tv_scale', default=defaults['tv_scale'])
     use_horizontal_symmetry = BooleanField('use_horizontal_symmetry', default=defaults['use_horizontal_symmetry'])
     use_secondary_model = BooleanField('use_secondary_model',default='checked')
     use_vertical_symmetry = BooleanField('use_vertical_symmetry', default=defaults['use_vertical_symmetry'])
@@ -143,26 +146,80 @@ class DefaultSettings(FlaskForm):
 
 @app.route('/',methods=['GET'])
 def index():
-    print("session",session['tv_s'])
+    print("r",randrange(4294967295))
     return render_template('index.html', form = DefaultSettings(), defaults=defaults)
 
 
 @app.route('/AddRender', methods=['POST'])
 def startRender():
     print(request.form)
-    newObject = []
+    newObject = {}
     for key in request.form:
         if(request.form[key]=='y'):
-            newObject.append((key,True))
+            newObject[key] = True
+        elif(request.form[key]=='n'):
+            newObject[key] = False
         else:
-            newObject.append((key,request.form[key]))
-
-        print(key)
-        print(request.form[key])
+            newObject[key] = request.form[key]
+        # print(key)
+        # print(request.form[key])
     for key in newObject:
         print(key)
         print(newObject[key])
-    return render_template('rendering.html',form=DefaultSettings())
+        defaults[key] = newObject[key]
+
+    #need to queue the render now
+    queue.append(newObject)
+    da = create(batch_name = defaults['batch_name'],                     
+    batch_size = int(defaults['batch_size']),                     
+    clamp_grad = defaults['clamp_grad'],                     
+    clamp_max = float(defaults['clamp_max']),                      
+    clip_denoised = defaults['clip_denoised'],                  
+    clip_guidance_scale = int(defaults['clip_guidance_scale']),            
+    clip_models = defaults['clip_models'],                    
+    clip_models_schedules = defaults['clip_models_schedules'],          
+    cut_ic_pow = defaults['cut_ic_pow'],                     
+    cut_icgray_p = defaults['cut_icgray_p'],                   
+    cut_innercut = defaults['cut_innercut'],                   
+    cut_overview = defaults['cut_overview'],                   
+    cut_schedules_group = defaults['cut_schedules_group'],            
+    cutn_batches = int(defaults['cutn_batches']),                   
+    diffusion_model = defaults['diffusion_model'],                
+    diffusion_model_config = defaults['diffusion_model_config'],         
+    diffusion_sampling_mode = defaults['diffusion_sampling_mode'],        
+    display_rate = int(defaults['display_rate']),                   
+    eta = float(defaults['eta']),                            
+    gif_fps = int(defaults['gif_fps']),                        
+    gif_size_ratio = float(defaults['gif_size_ratio']),                 
+    image_output = defaults['image_output'],                   
+    init_image = defaults['init_image'],                     
+    init_scale = int(defaults['init_scale']),                     
+    n_batches = int(defaults['n_batches']),                      
+    name_docarray = defaults['name_docarray'],                  
+    on_misspelled_token = defaults['on_misspelled_token'],            
+    perlin_init = defaults['perlin_init'],                    
+    perlin_mode = defaults['perlin_mode'],                    
+    rand_mag = defaults['rand_mag'],                       
+    randomize_class = defaults['randomize_class'],                
+    range_scale = int(defaults['range_scale']),                    
+    sat_scale = int(defaults['sat_scale']),                      
+    save_rate = int(defaults['save_rate']),                      
+    seed = defaults['seed'],                           
+    skip_event = defaults['skip_event'],                     
+    skip_steps = int(defaults['skip_steps']),                     
+    steps = int(defaults['steps']),                          
+    stop_event = defaults['stop_event'],                     
+    text_clip_on_cpu = defaults['text_clip_on_cpu'],               
+    text_prompts = defaults['text_prompts'],                    
+    transformation_percent = defaults['transformation_percent'],         
+    truncate_overlength_prompt = defaults['truncate_overlength_prompt'],     
+    tv_scale = int(defaults['tv_scale']),                           
+    use_horizontal_symmetry = defaults['use_horizontal_symmetry'],        
+    use_secondary_model = defaults['use_secondary_model'],            
+    use_vertical_symmetry = defaults['use_vertical_symmetry'],          
+    visualize_cuts = defaults['visualize_cuts'],                 
+    width_height = [int(defaults['width']),int(defaults['height'])]  )
+    return render_template('rendering.html',default=defaults)
 
     
 if __name__ == "__main__":
@@ -268,7 +325,7 @@ if __name__ == "__main__":
 #     "text_prompt":['A beautiful painting of a singular lighthouse, shining its light across a tumultuous sea of blood by greg rutkowski and thomas kinkade, Trending on artstation.', 'yellow color scheme']  ,
 #     "transformation_percent":[0.09],
 #     "truncate_overlength_prompt":False,
-#     "tv_s":0,
+#     "tv_scale":0,
 #     "use_horizontal_symmetry":False,
 #     "use_secondary_model":True,
 #     "use_vertical_symmetry":False,
@@ -304,3 +361,4 @@ if __name__ == "__main__":
 # "ViT-L-14::openai",      
 # "ViT-L-14-336::openai"
 
+                 
