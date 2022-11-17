@@ -1,5 +1,6 @@
 This is a fork of jina-ai's discoart.
 This project is meant to be a user interface for discoArt, mimicking that of runpod's Artpod
+All my changes are in the master branch
 
 
 ![](.github/banner.png)
